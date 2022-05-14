@@ -7,9 +7,10 @@ import play.api.test._
 import play.api.test.Helpers._
 import repositories.BookRepository
 import models.Book
-import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.{any, anyLong}
 import org.mockito.Mockito.when
 import play.api.libs.json._
+
 import scala.collection.mutable
 
 class BooksControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting with MockitoSugar {
@@ -94,6 +95,17 @@ class BooksControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injectin
       deleted mustBe true
       //TODO can see empty book array
     }
+  }
+
+  "throw an error when deleting a book that doesn't exist" in {
+    when(mockDataService.deleteBook(80)) thenThrow new NoSuchElementException("Book not found")
+    val parsed = Json.parse("""{"id":80}""")
+    val controller = new BooksController(stubControllerComponents(), mockDataService)
+    val exceptionCaught = intercept[Exception] {
+      controller.deleteBook().apply(FakeRequest(DELETE, "/delete-book").withJsonBody(parsed))
+    }
+
+    exceptionCaught.getMessage mustBe "Book not found"
   }
 
 }
