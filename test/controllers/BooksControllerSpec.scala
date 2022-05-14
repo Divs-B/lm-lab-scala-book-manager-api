@@ -81,4 +81,19 @@ class BooksControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injectin
       contentType(book) mustBe Some("application/json")
     }
   }
+
+  "BooksController POST deleteBook" should {
+    "return 200 OK for deleting a single book by id" in {
+
+      when(mockDataService.deleteBook(1)) thenReturn true
+
+
+      val parsed = Json.parse("""{"id":2}""")
+      val controller = new BooksController(stubControllerComponents(), mockDataService)
+      val deleted:Boolean = controller.deleteBook().apply(FakeRequest(POST, "/delete-book").withJsonBody(parsed)).isCompleted
+      deleted mustBe true
+      //TODO can see empty book array
+    }
+  }
+
 }
