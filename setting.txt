@@ -1,0 +1,3 @@
+vm setting for run task
+
+-Xms512M -Xmx1024M -Xss1M -XX:+CMSClassUnloadingEnabled
