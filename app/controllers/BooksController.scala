@@ -1,14 +1,14 @@
 package controllers
 
 import models.Book
-import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
+import play.api.mvc.{AbstractController, Action, AnyContent, BaseController, ControllerComponents}
 import play.api.libs.json._
 import repositories.BookRepository
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class BooksController @Inject()(val controllerComponents: ControllerComponents, dataRepository: BookRepository) extends BaseController {
+class BooksController @Inject()(val cc: ControllerComponents, dataRepository: BookRepository) extends AbstractController(cc) {
 
   def getAll: Action[AnyContent] = Action {
     Ok(Json.toJson(dataRepository.getAllBooks))
