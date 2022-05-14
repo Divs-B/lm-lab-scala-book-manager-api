@@ -1,7 +1,7 @@
 package controllers
 
 import models.Book
-import play.api.mvc.{AbstractController, Action, AnyContent, BaseController, ControllerComponents}
+import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
 import play.api.libs.json._
 import repositories.BookRepository
 
@@ -50,6 +50,4 @@ class BooksController @Inject()(val cc: ControllerComponents, dataRepository: Bo
       Redirect(routes.BooksController.getAll())
     }
   }
-
-
 }

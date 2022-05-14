@@ -1,6 +1,6 @@
 package models
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 /**
  * We use a Scala case class to define our model object
@@ -12,5 +12,5 @@ import play.api.libs.json.Json
 case class Book(id: Long, title: String, author: String, description: String, genre: String)
 
 object Book {
-  implicit val format = Json.format[Book]
+  implicit val format: OFormat[Book] = Json.format[Book]
 }
