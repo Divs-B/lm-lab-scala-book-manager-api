@@ -1,9 +1,9 @@
 package repositories
 
 import models.Book
-
 import javax.inject.Singleton
 import scala.collection.mutable
+
 
 @Singleton
 class BookRepository {
@@ -29,7 +29,7 @@ class BookRepository {
 
   def addBook(book: Book): Option[Book] = {
     // If book already exists then return none
-    if(bookList.exists(b => b.id == book.id)) {
+    if (bookList.exists(b => b.id == book.id)) {
       None
     }
     else {
@@ -39,5 +39,16 @@ class BookRepository {
       }
     }
   }
+
+  def deleteBook(bookId: Long): Boolean = {
+    if (!bookList.find(_.id == bookId).isEmpty) {
+      val book = getBook(bookId).get
+      bookList.remove(book)
+      true
+    }
+    else
+      false
+  }
+
 
 }
